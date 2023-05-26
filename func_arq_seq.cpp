@@ -39,17 +39,18 @@ struct Evento{
 };
 
 char menu(){
+	
 	char op;
     system("cls"); //LIMPA A TELA
 	cout<<"\t\tMENU PRINCIPAL\n\n";
-    cout<<"\t\t\t1 - Menu de Cadastros\n\n";
-    cout<<"\t\t\t2 - \n\n";
-    cout<<"\t\t\t3 - \n\n";
-    cout<<"\t\t\t4 - \n\n";
-    cout<<"\t\t\t5 - \n\n";
-    cout<<"\t\t\t6 - \n\n";
-    cout<<"\t\t\t7 - \n\n";
-    cout<<"\t\t\t8 - \n\n";
+    cout<<"\t\t\t1 - Cadastrar Cidades\n\n";
+    cout<<"\t\t\t2 - Mostrar Cidades\n\n";
+    cout<<"\t\t\t3 - Cadastrar Apresentadores\n\n";
+    cout<<"\t\t\t4 - Mostrar apresentadores\n\n";
+    cout<<"\t\t\t5 - Cadastrar eventos\n\n";
+    cout<<"\t\t\t6 - Mostrar Eventos\n\n";
+    cout<<"\t\t\t7 - Segundo Menu\n\n";
+    cout<<"\t\t\t8 - Adicionar novo Apresentador\n\n";
     cout<<"\t\t\t9 - Sair do programa\n\n";
     
     cout<<"\t\tEscolha a opcao: ";
@@ -168,6 +169,7 @@ void mostrarApresentadores(Apresentador lista[],int tam){
 			
 		}
 	}
+	cout<<"\n\n\t\tTamanho da lista: "<<tam;
 	getch();	
 }
 
@@ -206,6 +208,31 @@ void mostrarEventos(Evento lista[],int tam){
 	
 }
 
+void addApresentador(Apresentador antiga[],int &y){
+	system("cls");
+	//cout<<"Tamanho lista apresentador"<<y; // tamanho da lista esta entrnado
+	//Apresentador temporario[1];
+	//Apresentador novo[y +1];
+		cout<<"\n\t\tDigite codigo do apresentador: ";
+		cin>>antiga[y].codigo;
+		cout<<"\n\t\tDigite nome do apresentador: ";
+		cin>>antiga[y].nome;
+		y++;
+	
+	
+/*	for(int i = y; i < y+1; i++){
+	
+		
+	}*/
+	
+	
+	
+	
+	
+	
+	getch();
+}
+
 
 int main(){
 	/*declaracao dos vetores*/
@@ -213,6 +240,7 @@ int main(){
     Apresentador listaApresentadores[100]; int lengApre = 0;
     Participante listaParticipantes[100]; int lengPart = 0;
     Evento listaEventos[100]; int lengEvent = 0;
+    
 	
 	
 	
@@ -226,16 +254,38 @@ int main(){
 		  case '5' : { lerEventos(listaEventos,2,lengEvent); break; }
 		  case '6' : { mostrarEventos(listaEventos,lengEvent); break; }
 		  case '7' : { menu2(); break; } // mostra todos itens ja cadastrados
-		  //case '8' : {	;break; }
+		  case '8' : { addApresentador(listaApresentadores,lengApre);break; }
 		  case '9' : { sair();  break;	 }
 		  
 		  default : { cout<<"\n\nOpcao invalida. Tecle algo para continuar...";
 		              getch(); }
 		}
    }   
+   
+   /*
+   
+   char escolha;
+   cout<<"\n\n\t\tEscolha o menu";
+   cout<<"\n\n\t\t1 - Menu de Cadastros";
+   cout<<"\n\n\t\t2 - Menu de Adicoes";
+   escolha = getch();
+   
+   switch(escolha){
+   	case '1' : {
+		menu(); break;
+	   }
+	   
+	case '2' : {
+		menu2(); break;
+	}
+   }
+   
+   cout<<escolha;*/
+   
     
     
     
+
     
     
     
