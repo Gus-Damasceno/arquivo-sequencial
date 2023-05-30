@@ -43,13 +43,13 @@ char menu(){
 	char op;
     system("cls"); //LIMPA A TELA
 	cout<<"\t\tMENU PRINCIPAL\n\n";
-    cout<<"\t\t\t1 - Cadastrar Cidades\n\n";
-    cout<<"\t\t\t2 - Mostrar Cidades\n\n";
+    //cout<<"\t\t\t1 - Cadastrar Cidades\n\n";
+    //cout<<"\t\t\t2 - Mostrar Cidades\n\n";
     cout<<"\t\t\t3 - Cadastrar Apresentadores\n\n";
     cout<<"\t\t\t4 - Mostrar apresentadores\n\n";
-    cout<<"\t\t\t5 - Cadastrar eventos\n\n";
-    cout<<"\t\t\t6 - Mostrar Eventos\n\n";
-    cout<<"\t\t\t7 - Segundo Menu\n\n";
+    //cout<<"\t\t\t5 - Cadastrar eventos\n\n";
+    //cout<<"\t\t\t6 - Mostrar Eventos\n\n";
+    //cout<<"\t\t\t7 - Segundo Menu\n\n";
     cout<<"\t\t\t8 - Adicionar novo Apresentador\n\n";
     cout<<"\t\t\t9 - Sair do programa\n\n";
     
@@ -117,8 +117,8 @@ void sair(){
 void lerCidades(Cidade lista[], int n, int &ctrl){
 	system("cls"); //LIMPA A TELA	
 	cout<<"\t------------CADASTRANDO CIDADES------------";	
-	for(int i = 0; i < 3; i++){
-		cout<<"\n\t\tCidade ["<<i+1<<"]"<<endl;
+	for(int i = 0; i < n; i++){
+		cout<<"\n\n\t\tCidade ["<<i+1<<"]";
 		cout<<"\n\tDigite codigo da cidade: ";
 		cin>>lista[i].codigo;
 		cout<<"\n\tDigite nome da cidade: ";
@@ -208,38 +208,80 @@ void mostrarEventos(Evento lista[],int tam){
 	
 }
 
-void addApresentador(Apresentador antiga[],int &y){
+void addApresentador(Apresentador sequencial[],int &contador){
 	system("cls");
-	//cout<<"Tamanho lista apresentador"<<y; // tamanho da lista esta entrnado
-	//Apresentador temporario[1];
-	//Apresentador novo[y +1];
-		cout<<"\n\t\tDigite codigo do apresentador: ";
-		cin>>antiga[y].codigo;
-		cout<<"\n\t\tDigite nome do apresentador: ";
-		cin>>antiga[y].nome;
-		y++;
 	
+	Apresentador temporario[1]; int contT = 0 ;
+	Apresentador atualizado[100]; int contA = 0;
 	
-/*	for(int i = y; i < y+1; i++){
+	int i = 0, j = 0, k = 0;  //sequencial, temporario, atualizado
 	
+		cout<<"Tamanho da lista sequencial passada por parametro: "<<contador;
 		
-	}*/
+		cout<<"\n\t\tDigite codigo do apresentador: ";
+		cin>>temporario[j].codigo;
+		cout<<"\n\t\tDigite nome do apresentador: ";
+		cin>>temporario[j].nome;
+		contT = 1;
+		
+		
+	for(;i < contador && j < contT;k++){
+		if(sequencial[i].codigo < temporario[j].codigo){
+			atualizado[k].codigo = sequencial[i].codigo;
+			strcpy(atualizado[k].nome,sequencial[i].nome);			
+			cout<<"\n\tItem transferido de sequencial para atualizado: "<<sequencial[i].codigo;
+			i++;			
+		}else{
+			atualizado[k].codigo = temporario[j].codigo;
+			strcpy(atualizado[k].nome,temporario[j].nome);			
+			j++;			
+			cout<<"\n\tItem transferido de temporario para atualizado"<<temporario[j].codigo;
+		}		
+	}	
+	
+	while(i < contador){
+		atualizado[k].codigo = sequencial[i].codigo;
+		strcpy(atualizado[k].nome, sequencial[i].nome);		
+		i++;
+		k++;				
+	}
+	
+	while(j < contT){
+		atualizado[k].codigo = temporario[j].codigo;
+		strcpy(atualizado[k].nome,temporario[j].nome);
+		j++;
+		k++;		
+	}
+	
+	contador = k;
 	
 	
-	
-	
-	
-	
-	getch();
+	cout<<"\n\n\tLista atualizada, gerada dentro da funcao";
+	for(int x = 0; x < k;x++){
+		cout<<"\n\t\t\tCodigo: "<<atualizado[x].codigo<<" | Nome: "<<atualizado[x].nome;			
+		}
+		
+	cout<<"\n\n\t\tTransferindo de atualizado para sequencial....";
+		
+		
+		
+	for(int x = 0; x < contador;x++){
+		sequencial[x].codigo = atualizado[x].codigo;
+		strcpy(sequencial[x].nome, atualizado[x].nome);			
+	}
+	cout<<"\n\n\tValores transferidos para vetor principal!!!";
+	cout<<"\n\n\n\t\tPressione algo....";
+getch();
 }
 
 
 int main(){
+	system("color 8F");
 	/*declaracao dos vetores*/
-	Cidade listaCidades[100]; int lengCidade = 0;
-    Apresentador listaApresentadores[100]; int lengApre = 0;
-    Participante listaParticipantes[100]; int lengPart = 0;
-    Evento listaEventos[100]; int lengEvent = 0;
+	Cidade listaCidades[100]; int lengCidade = 0;//contador
+    Apresentador listaApresentadores[100]; int lengApre = 0;//contador
+    Participante listaParticipantes[100]; int lengPart = 0;//contador
+    Evento listaEventos[100]; int lengEvent = 0;//contador
     
 	
 	
@@ -247,9 +289,9 @@ int main(){
     while (opcao != 'S'){
 		opcao = menu();  // recebe o retorno da função menu()
 		switch (opcao) {
-		  case '1' : { lerCidades(listaCidades,2,lengCidade); break; }
+		  case '1' : { lerCidades(listaCidades,5,lengCidade); break; }
 		  case '2' : { mostrarCidades(listaCidades, lengCidade); break; }
-		  case '3' : { lerApresentadores(listaApresentadores,2,lengApre); break;}
+		  case '3' : { lerApresentadores(listaApresentadores,5,lengApre); break;}
 		  case '4' : { mostrarApresentadores(listaApresentadores,lengApre); break; }
 		  case '5' : { lerEventos(listaEventos,2,lengEvent); break; }
 		  case '6' : { mostrarEventos(listaEventos,lengEvent); break; }
