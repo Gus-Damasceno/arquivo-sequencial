@@ -4,11 +4,6 @@
 
 using namespace std;
 
-//variaveis do menu
-char opcao='N';
-char conf;
-
-
 /*lista de structs*/
 struct Cidade{
     int codigo;
@@ -43,14 +38,14 @@ char menu(){
 	char op;
     system("cls"); //LIMPA A TELA
 	cout<<"\t\tMENU PRINCIPAL\n\n";
-    //cout<<"\t\t\t1 - Cadastrar Cidades\n\n";
-    //cout<<"\t\t\t2 - Mostrar Cidades\n\n";
+    cout<<"\t\t\t1 - Cadastrar Cidades\n\n";
+    cout<<"\t\t\t2 - Mostrar Cidades\n\n";
     cout<<"\t\t\t3 - Cadastrar Apresentadores\n\n";
     cout<<"\t\t\t4 - Mostrar apresentadores\n\n";
-    //cout<<"\t\t\t5 - Cadastrar eventos\n\n";
-    //cout<<"\t\t\t6 - Mostrar Eventos\n\n";
-    //cout<<"\t\t\t7 - Segundo Menu\n\n";
-    cout<<"\t\t\t8 - Adicionar novo Apresentador\n\n";
+    cout<<"\t\t\t5 - Cadastrar eventos\n\n";
+    cout<<"\t\t\t6 - Mostrar Eventos\n\n";
+    cout<<"\t\t\t7 - Menu de Inclusoes\n\n";
+    cout<<"\t\t\t8 - \n\n";
     cout<<"\t\t\t9 - Sair do programa\n\n";
     
     cout<<"\t\tEscolha a opcao: ";
@@ -65,45 +60,11 @@ void hello(){
 	getch();
 }
 
-void menu2(){
-	int opcao;
-    system("cls"); //LIMPA A TELA
-	cout<<"\t\t\t\tMENU - CADASTROS:\n\n";
-    cout<<"\t\t\t\t\t1 - Cadastrar Cidades\n\n";
-    cout<<"\t\t\t\t\t2 - Mostrar Cidades\n\n";
-    cout<<"\t\t\t\t\t3 - Cadastrar Apresentadores\n\n";
-    cout<<"\t\t\t\t\t4 - Mostrar Apresentadores\n\n";
-    cout<<"\t\t\t\t\t5 - Cadastrar eventos\n\n";
-    cout<<"\t\t\t\t\t6 - Mostrar Eventos\n\n";
-    cout<<"\t\t\t\t\t7 - \n\n";
-    cout<<"\t\t\t\t\t8 - Voltar para Menu Principal\n\n";
-    
-    cout<<"\t\t\t\tEscolha a opcao: ";
-	opcao=getch();//pega a batida do teclado do usuario
-	
-	
-	int sair = 0;
-	
-		//menu2();
-		switch (opcao) {
-		  case '1' : {  hello(); break; }
-		  //case '2' : {  ; break; }
-		  //case '3' : {  ; break;}
-		  //case '4' : {  ; break; }
-		  //case '5' : {  ; break; }
-		  //case '6' : {  ; break; }
-		  //case '7' : {  ; break; } // mostra todos itens ja cadastrados
-		  case '8' : { menu();  break;	 }
-		  
-		  default : { cout<<"\n\nOpcao invalida. Tecle algo para continuar...";
-		              getch(); }
-		}
-   
-}
 
 
 
-void sair(){
+
+void sair(char &opcao, char &conf){
 	system("cls");
 	cout<<"\n\n\t\tDeseja finalizar o programa? S / N";
 	conf=toupper(getch());
@@ -274,6 +235,43 @@ void addApresentador(Apresentador sequencial[],int &contador){
 getch();
 }
 
+void menu2(struct Apresentador lista[],int &x){
+	int func;
+	while(func!=1){
+    system("cls"); //LIMPA A TELA
+	cout<<"\t\t\t\tMENU - INCLUSOES:\n\n";
+    cout<<"\t\t\t\t\t1 - Incluir novo Apresentador\n\n";
+    cout<<"\t\t\t\t\t2 - Incluir novo Evento\n\n";
+    cout<<"\t\t\t\t\t3 - Se inscrever em um evento\n\n";
+    cout<<"\t\t\t\t\t4 - Consultar dados de Evento\n\n";
+    cout<<"\t\t\t\t\t5 - Mostrar todos eventos\n\n";
+    cout<<"\t\t\t\t\t6 - \n\n";
+    cout<<"\t\t\t\t\t7 - \n\n";
+    cout<<"\t\t\t\t\t8 - Voltar para Menu Principal\n\n";
+    
+    cout<<"\t\t\t\tEscolha a opcao: ";
+	
+	char op=toupper(getch());//pega a batida do teclado do usuario	
+	
+	
+	
+		switch (op) {
+		  case '1' : {  addApresentador(lista,x); break; }
+		  //case '2' : {  ; break; }
+		  //case '3' : {  ; break;}
+		  //case '4' : {  ; break; }
+		  //case '5' : {  ; break; }
+		  //case '6' : {  ; break; }
+		  //case '7' : {  ; break; } // mostra todos itens ja cadastrados
+		  case '8' : { func=1;menu();  break;	 }
+		  
+		  default : { cout<<"\n\nOpcao invalida2. Tecle algo para continuar...";
+		              getch(); }
+		
+		
+		}
+   	}   	
+}
 
 int main(){
 	system("color 8F");
@@ -284,8 +282,8 @@ int main(){
     Evento listaEventos[100]; int lengEvent = 0;//contador
     
 	
-	
-	
+	char opcao='N';
+	char conf;	
     while (opcao != 'S'){
 		opcao = menu();  // recebe o retorno da função menu()
 		switch (opcao) {
@@ -295,40 +293,13 @@ int main(){
 		  case '4' : { mostrarApresentadores(listaApresentadores,lengApre); break; }
 		  case '5' : { lerEventos(listaEventos,2,lengEvent); break; }
 		  case '6' : { mostrarEventos(listaEventos,lengEvent); break; }
-		  case '7' : { menu2(); break; } // mostra todos itens ja cadastrados
-		  case '8' : { addApresentador(listaApresentadores,lengApre);break; }
-		  case '9' : { sair();  break;	 }
+		  case '7' : { menu2(listaApresentadores,lengApre); break; } // mostra todos itens ja cadastrados
+		  //case '8' : { ;break; }
+		  case '9' : { sair(opcao,conf);  break;	 }
 		  
 		  default : { cout<<"\n\nOpcao invalida. Tecle algo para continuar...";
 		              getch(); }
 		}
-   }   
-   
-   /*
-   
-   char escolha;
-   cout<<"\n\n\t\tEscolha o menu";
-   cout<<"\n\n\t\t1 - Menu de Cadastros";
-   cout<<"\n\n\t\t2 - Menu de Adicoes";
-   escolha = getch();
-   
-   switch(escolha){
-   	case '1' : {
-		menu(); break;
-	   }
-	   
-	case '2' : {
-		menu2(); break;
-	}
-   }
-   
-   cout<<escolha;*/
-   
-    
-    
-    
-
-    
-    
+   }    
     
 }
