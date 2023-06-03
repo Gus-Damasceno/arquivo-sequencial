@@ -235,7 +235,87 @@ void addApresentador(Apresentador sequencial[],int &contador){
 getch();
 }
 
-void menu2(struct Apresentador lista[],int &x){
+void addEvento(Evento sequencial[],int &contador){
+	system("cls");
+	
+	Evento temporario[1]; int contT = 0;
+	Evento atualizado[100]; int contA = 0;
+	
+	int i = 0, j = 0, k = 0;  //sequencial, temporario, atualizado
+	
+		cout<<"Tamanho da lista sequencial passada por parametro: "<<contador;
+		
+		cout<<"\n\t\tDigite codigo do evento: ";
+		cin>>temporario[j].codigo;
+		cout<<"\n\t\tDigite a descricao do evento: ";
+		cin>>temporario[j].descricao;
+		cout<<"\n\t\tDigite limite de pessoas";
+		cin>>temporario[j].limiteParticipantes;
+		cout<<"\n\t\tDigite codigo da cidade";
+		cin>>temporario[j].codigo_cidade;
+		cout<<"\n\t\tDigite codigo do apresentador";
+		cin>>temporario[j].codigo_apresentador;
+		contT = 1;
+		
+		
+	for(;i < contador && j < contT;k++){
+		if(sequencial[i].codigo < temporario[j].codigo){
+			
+			atualizado[k].codigo = sequencial[i].codigo;
+			strcpy(atualizado[k].descricao,sequencial[i].descricao);
+			atualizado[k].limiteParticipantes = sequencial[i].limiteParticipantes;
+			atualizado[k].codigo_cidade = sequencial[i].codigo_cidade;
+			atualizado[k].codigo_apresentador = sequencial[i].codigo_apresentador;				
+			cout<<"\n\tItem transferido de sequencial para atualizado: "<<sequencial[i].codigo;
+			i++;			
+		}else{
+			atualizado[k].codigo = temporario[j].codigo;
+			strcpy(atualizado[k].descricao, temporario[j].descricao);				
+			j++;			
+			cout<<"\n\tItem transferido de temporario para atualizado"<<temporario[j].codigo;
+		}		
+	}	
+	
+	while(i < contador){
+		atualizado[k].codigo = sequencial[i].codigo;
+		strcpy(atualizado[k].descricao,sequencial[i].descricao);
+		i++;
+		k++;				
+	}
+	
+	while(j < contT){
+		atualizado[k].codigo = temporario[j].codigo;
+		strcpy(atualizado[k].descricao, temporario[j].descricao);
+		j++;
+		k++;		
+	}
+	
+	contador = k;
+	
+	
+	cout<<"\n\n\tLista atualizada, gerada dentro da funcao";
+	for(int x = 0; x < k;x++){
+		cout<<"\n\t\t\tCodigo: "<<atualizado[x].codigo<<" | Descricao: "<<atualizado[x].descricao;			
+		}
+		
+	cout<<"\n\n\t\tTransferindo de atualizado para sequencial....";
+		
+		
+	/*TEMPORARIO >> PRINCIPAL*/	
+	for(int x = 0; x < contador;x++){
+		sequencial[x].codigo = atualizado[x].codigo;
+		strcpy(sequencial[x].descricao, atualizado[x].descricao);
+		sequencial[x].limiteParticipantes = atualizado[x].limiteParticipantes;
+		sequencial[x].codigo_cidade = atualizado[x].codigo_cidade;
+		sequencial[x].codigo_apresentador = atualizado[x].codigo_apresentador;
+						
+	}
+	cout<<"\n\n\tValores transferidos para vetor principal!!!";
+	cout<<"\n\n\n\t\tPressione algo....";
+getch();
+}
+
+void menu2(struct Apresentador lista[],int &x, struct Evento eventos[], int &y){
 	int func;
 	while(func!=1){
     system("cls"); //LIMPA A TELA
@@ -257,7 +337,7 @@ void menu2(struct Apresentador lista[],int &x){
 	
 		switch (op) {
 		  case '1' : {  addApresentador(lista,x); break; }
-		  //case '2' : {  ; break; }
+		  case '2' : {  addEvento(eventos,y); break; }
 		  //case '3' : {  ; break;}
 		  //case '4' : {  ; break; }
 		  //case '5' : {  ; break; }
@@ -291,9 +371,9 @@ int main(){
 		  case '2' : { mostrarCidades(listaCidades, lengCidade); break; }
 		  case '3' : { lerApresentadores(listaApresentadores,5,lengApre); break;}
 		  case '4' : { mostrarApresentadores(listaApresentadores,lengApre); break; }
-		  case '5' : { lerEventos(listaEventos,2,lengEvent); break; }
+		  case '5' : { lerEventos(listaEventos,4,lengEvent); break; }
 		  case '6' : { mostrarEventos(listaEventos,lengEvent); break; }
-		  case '7' : { menu2(listaApresentadores,lengApre); break; } // mostra todos itens ja cadastrados
+		  case '7' : { menu2(listaApresentadores,lengApre,listaEventos,lengEvent); break; } // mostra todos itens ja cadastrados
 		  //case '8' : { ;break; }
 		  case '9' : { sair(opcao,conf);  break;	 }
 		  
