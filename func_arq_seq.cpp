@@ -19,6 +19,7 @@ struct Apresentador{
 struct Participante{
     int codigo;
     char nome[50];
+    
     int codigo_evento;//chave estrangeira
 };
 
@@ -37,16 +38,19 @@ char menu(){
 	
 	char op;
     system("cls"); //LIMPA A TELA
-	cout<<"\t\tMENU PRINCIPAL\n\n";
-    cout<<"\t\t\t1 - Cadastrar Cidades\n\n";
-    cout<<"\t\t\t2 - Mostrar Cidades\n\n";
-    cout<<"\t\t\t3 - Cadastrar Apresentadores\n\n";
-    cout<<"\t\t\t4 - Mostrar apresentadores\n\n";
-    cout<<"\t\t\t5 - Cadastrar eventos\n\n";
-    cout<<"\t\t\t6 - Mostrar Eventos\n\n";
-    cout<<"\t\t\t7 - Menu de Inclusoes\n\n";
-    cout<<"\t\t\t8 - \n\n";
-    cout<<"\t\t\t9 - Sair do programa\n\n";
+	cout<<"\t\t============ MENU PRINCIPAL ========\n\n";
+	cout<<"\t\t|\t0 - Cadastrar Cidades\n\n";
+    cout<<"\t\t|\t1 - Cadastrar Apresentadores\n\n";
+    cout<<"\t\t|\t2 - Cadastrar Eventos\n\n";
+    cout<<"\t\t|\t3 - Cadastrar Participantes\n\n";
+    cout<<"\t\t--------------------------------------\n\n";
+    cout<<"\t\t|\t4 - Exibir Cidades\n\n";
+    cout<<"\t\t|\t5 - Exibir Apresentadores\n\n";
+    cout<<"\t\t|\t6 - Exibir Eventos\n\n";
+    cout<<"\t\t|\t7 - Exibir Participantes\n\n";
+    cout<<"\t\t--------------------------------------\n\n";
+    cout<<"\t\t|\t8 - Menu de Inclusões -->\n\n";
+    cout<<"\t\t|\t9 - Sair do programa\n\n";
     
     cout<<"\t\tEscolha a opcao: ";
 	op=toupper(getch());//pega a batida do teclado do usuario
@@ -54,15 +58,31 @@ char menu(){
 	return op;	
 }
 
-void hello(){
+void buscarCidade(struct Cidade lista[], int tam){
 	system("cls");
-	cout<<"\n\n\t\tHello World";
+	int cod;
+	
+	cout<<"Digite o codigo da cidade que quer buscar";
+	cin>>cod;
+	
+	int inicio = 0, final = tam;
+	int meio = (inicio + final) / 2;
+	
+	for(; final >= inicio && cod != lista[meio].codigo; meio = (inicio + final) / 2){
+		if(cod > lista[meio].codigo){
+			inicio = meio +1 ;
+		}else{
+			final = meio -1;
+		}		
+	}
+	if(cod == lista[meio].codigo){
+		/*mostra todos detalhes*/
+		cout<<"encontrado";
+	}else{
+		cout<<"nao encontrado";
+	}
 	getch();
 }
-
-
-
-
 
 void sair(char &opcao, char &conf){
 	system("cls");
@@ -79,14 +99,23 @@ void lerCidades(Cidade lista[], int n, int &ctrl){
 	system("cls"); //LIMPA A TELA	
 	cout<<"\t------------CADASTRANDO CIDADES------------";	
 	for(int i = 0; i < n; i++){
+		
 		cout<<"\n\n\t\tCidade ["<<i+1<<"]";
 		cout<<"\n\tDigite codigo da cidade: ";
 		cin>>lista[i].codigo;
-		cout<<"\n\tDigite nome da cidade: ";
-		cin>>lista[i].nome;
-		cout<<"\n\tDigite UF da cidade: ";
-		cin>>lista[i].UF;
-		ctrl++;		
+		
+		if(lista[i].codigo ==0){
+			lista[i].codigo = 1;
+			break;			
+		}else{
+			cout<<"\n\tDigite nome da cidade: ";
+			cin>>lista[i].nome;
+			cout<<"\n\tDigite UF da cidade: ";
+			cin>>lista[i].UF;
+			ctrl++;			
+		}
+		
+			
 	}	
 	getch;	
 	
@@ -149,6 +178,12 @@ void lerEventos(Evento lista[],int n, int &ctrl){
 		cin>>lista[i].limiteParticipantes;
 		cout<<"\n\tDigite valor do ingresso";
 		cin>>lista[i].precoUnitario;
+		
+		cout<<"\n\tDigite codigo da Cidade: ";
+		cout<<"\n\tDigite codigo do Apresentador";
+		
+		/*funcao de validacao*/
+		
 		ctrl++;		
 	}	
 	getch;
@@ -167,6 +202,37 @@ void mostrarEventos(Evento lista[],int tam){
 	}
 	getch();
 	
+}
+
+
+void lerParticipantes(struct Participante lista[],int n, int &contador){
+	system("cls");
+	cout<<"\t------------CADASTRANDO DE PARTICIPANTES------------";
+	
+	for(int i =0; i < n; i++){
+		cout<<"\n\t\tParticipante ["<<i+1<<"]\n";
+		cout<<"\n\tDigite codigo do participante: ";
+		cin>>lista[i].codigo;
+		cout<<"\n\tDigite nome do participante: ";
+		cin>>lista[i].nome;
+		cout<<"\n\tDigite codigo do evento que deseja participar: ";
+		cin>>lista[i].codigo_evento;		
+		/*funcao de validacao*/
+		contador++;
+	}	
+}
+
+void mostrarParticipantes(struct Participante lista[], int tam){
+	system("cls");
+	if(tam ==0){
+		cout<<"\n\t\tLista de participantes vazia.";		
+	}else{
+		for(int i = 0; i < tam;i++){
+			cout<<"\n\tCodigo: "<<lista[i].codigo<<" | Nome: "<<lista[i].nome<<" | Codigo do Evento: "<<lista[i].codigo_evento;			
+		}
+		
+	}
+	getch();
 }
 
 void addApresentador(Apresentador sequencial[],int &contador){
@@ -315,7 +381,7 @@ void addEvento(Evento sequencial[],int &contador){
 getch();
 }
 
-void menu2(struct Apresentador lista[],int &x, struct Evento eventos[], int &y){
+void menu2(struct Apresentador lista[],int &x, struct Evento eventos[], int &y,struct Cidade cidades[],int s){
 	int func;
 	while(func!=1){
     system("cls"); //LIMPA A TELA
@@ -325,9 +391,9 @@ void menu2(struct Apresentador lista[],int &x, struct Evento eventos[], int &y){
     cout<<"\t\t\t\t\t3 - Se inscrever em um evento\n\n";
     cout<<"\t\t\t\t\t4 - Consultar dados de Evento\n\n";
     cout<<"\t\t\t\t\t5 - Mostrar todos eventos\n\n";
-    cout<<"\t\t\t\t\t6 - \n\n";
+    cout<<"\t\t\t\t\t6 - (Teste) Busca cidade\n\n";
     cout<<"\t\t\t\t\t7 - \n\n";
-    cout<<"\t\t\t\t\t8 - Voltar para Menu Principal\n\n";
+    cout<<"\t\t\t\t\t8 - <-- Voltar para Menu Principal\n\n";
     
     cout<<"\t\t\t\tEscolha a opcao: ";
 	
@@ -341,7 +407,7 @@ void menu2(struct Apresentador lista[],int &x, struct Evento eventos[], int &y){
 		  //case '3' : {  ; break;}
 		  //case '4' : {  ; break; }
 		  //case '5' : {  ; break; }
-		  //case '6' : {  ; break; }
+		  case '6' : {  buscarCidade(cidades, s); break; }
 		  //case '7' : {  ; break; } // mostra todos itens ja cadastrados
 		  case '8' : { func=1;menu();  break;	 }
 		  
@@ -355,11 +421,12 @@ void menu2(struct Apresentador lista[],int &x, struct Evento eventos[], int &y){
 
 int main(){
 	system("color 8F");
+	
 	/*declaracao dos vetores*/
-	Cidade listaCidades[100]; int lengCidade = 0;//contador
-    Apresentador listaApresentadores[100]; int lengApre = 0;//contador
-    Participante listaParticipantes[100]; int lengPart = 0;//contador
-    Evento listaEventos[100]; int lengEvent = 0;//contador
+	Cidade listaCidades[100]; int lengCidade = 0;//tabela + contador
+    Apresentador listaApresentadores[100]; int lengApre = 0;//tabela + contador
+    Participante listaParticipantes[100]; int lengPart = 0;//tabela + contador
+    Evento listaEventos[100]; int lengEvent = 0;//tabela + contador
     
 	
 	char opcao='N';
@@ -367,15 +434,17 @@ int main(){
     while (opcao != 'S'){
 		opcao = menu();  // recebe o retorno da função menu()
 		switch (opcao) {
-		  case '1' : { lerCidades(listaCidades,5,lengCidade); break; }
-		  case '2' : { mostrarCidades(listaCidades, lengCidade); break; }
-		  case '3' : { lerApresentadores(listaApresentadores,5,lengApre); break;}
-		  case '4' : { mostrarApresentadores(listaApresentadores,lengApre); break; }
-		  case '5' : { lerEventos(listaEventos,4,lengEvent); break; }
+		  case '0' : { lerCidades(listaCidades,5,lengCidade);break;}		
+		  case '1' : { lerApresentadores(listaApresentadores,5,lengApre); break; }
+		  case '2' : { lerEventos(listaEventos,4,lengEvent); break; }
+		  case '3' : { lerParticipantes(listaParticipantes,4,lengPart); break;}
+		  case '4' : { mostrarCidades(listaCidades, lengCidade); break; }
+		  case '5' : { mostrarApresentadores(listaApresentadores,lengApre); break; }
 		  case '6' : { mostrarEventos(listaEventos,lengEvent); break; }
-		  case '7' : { menu2(listaApresentadores,lengApre,listaEventos,lengEvent); break; } // mostra todos itens ja cadastrados
-		  //case '8' : { ;break; }
+		  case '7' : { mostrarParticipantes(listaParticipantes,lengPart); break; }
+		  case '8' : { menu2(listaApresentadores,lengApre,listaEventos,lengEvent,listaCidades,lengCidade);break; }
 		  case '9' : { sair(opcao,conf);  break;	 }
+		  
 		  
 		  default : { cout<<"\n\nOpcao invalida. Tecle algo para continuar...";
 		              getch(); }
